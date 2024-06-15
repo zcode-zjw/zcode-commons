@@ -1,0 +1,17 @@
+spring:
+  activemq:
+    user: admin
+    password: password
+    broker-url: failover:(tcp://140.246.103.223:61616)
+    #是否信任所有包(如果传递的是对象则需要设置为true，默认是传字符串)
+    packages:
+      trust-all: true
+    #连接池
+    pool:
+      enabled: true
+      max-connections: 5
+      idle-timeout: 30000
+    #      expiry-timeout: 0
+  jms:
+    #默认使用queue模式，使用topic则需要设置为true
+    pub-sub-domain: true

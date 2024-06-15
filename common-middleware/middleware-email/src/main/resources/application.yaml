@@ -1,0 +1,24 @@
+server:
+  port: 8091
+# 邮件配置
+spring:
+  mail:
+    # 这里换成自己的邮箱类型 例如smtp.163.com, smtp.qq.com
+    host: smtp.163.com
+    # 发送邮件服务协议
+    protocol: smtp
+    # 编码集
+    default-encoding: UTF-8
+    # 发送邮件的账户
+    username: m15519146879@163.com
+    # 授权码（自己邮箱的授权码）
+    password: WVCREOUSEJTFEUEW
+    test-connection: true
+    properties:
+      mail:
+        smtp:
+          # 表示SMTP发送邮件，需要进行身份验证
+          auth: true
+          starttls:
+            enable: true
+            required: true

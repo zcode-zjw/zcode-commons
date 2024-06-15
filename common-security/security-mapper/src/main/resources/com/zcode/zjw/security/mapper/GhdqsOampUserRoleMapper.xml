@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcode.zjw.security.mapper.GhdqsOampUserRoleMapper">
+	<!-- GhdqsOampUserRole的resultMap,column是给数据库列起的别名,它对应property类的属性 -->
+	<resultMap id="result_GhdqsOampUserRole_Map" type="com.zcode.zjw.security.entity.GhdqsOampUserRole">
+		
+		<result column="USER_ID" property="userId" />
+		<result column="ROLE_ID" property="roleId" />
+	</resultMap>
+
+	<!-- assist是查询辅助工具类, ${req.require}表示列名,#{req.value}表示值它是防SQL注入的 -->
+	<sql id="assist">
+		<where>
+			<foreach collection="require" item="req" separator=" ">
+				${req.require}
+				<if test="req.value != null">
+					#{req.value}
+				</if>
+				<if test="req.values != null">
+					<foreach collection="req.values" item="value" separator=",">
+						#{value}
+					</foreach>
+				</if>
+				<if test="req.customRequire !=null">
+					<foreach collection="req.customRequire" item="cr" separator=" ">
+						${cr.require}
+						<if test="cr.value != null">
+							#{cr.value}
+						</if>
+						<if test="cr.values != null">
+							<foreach collection="cr.values" item="value"
+								separator=",">
+								#{value}
+							</foreach>
+						</if>
+						<if test="cr.suffix != null"> ${cr.suffix}</if>
+					</foreach>
+				</if>
+				<if test="req.suffix != null"> ${req.suffix}</if>
+			</foreach>
+		</where>
+	</sql>
+
+	<!-- updateAssist用于更新数据查询辅助工具类,作用assist与一致 -->
+	<sql id="updateAssist">
+		<where>
+			<foreach collection="assist.require" item="req" separator=" ">
+				${req.require}
+				<if test="req.value != null">
+					#{req.value}
+				</if>
+				<if test="req.values != null">
+					<foreach collection="req.values" item="value" separator=",">
+						#{value}
+					</foreach>
+				</if>
+				<if test="req.customRequire !=null">
+					<foreach collection="req.customRequire" item="cr" separator=" ">
+						${cr.require}
+						<if test="cr.value != null">
+							#{cr.value}
+						</if>
+						<if test="cr.values != null">
+							<foreach collection="cr.values" item="value"
+								separator=",">
+								#{value}
+							</foreach>
+						</if>
+						<if test="cr.suffix != null"> ${cr.suffix}</if>
+					</foreach>
+				</if>
+				<if test="req.suffix != null"> ${req.suffix}</if>
+			</foreach>
+		</where>
+	</sql>
+
+	<!-- 数据库中表名为:GHDQS_OAMP_USER_ROLE的列名 -->
+	<sql id="GHDQS_OAMP_USER_ROLE_Column">
+		USER_ID,ROLE_ID
+	</sql>
+
+	<!--获得类名为:GhdqsOampUserRole对应的数据库表的数据总行数 -->
+	<select id="getGhdqsOampUserRoleRowCount" parameterType="com.zcode.zjw.common.utils.db.Assist" resultType="java.lang.Long">
+		select count(*) from GHDQS_OAMP_USER_ROLE
+		<if test="require!=null">
+			<include refid="assist" />
+		</if>
+	</select>
+	
+	<!-- 获得类名为:GhdqsOampUserRole对应数据库中表的数据集合 -->
+	<select id="selectGhdqsOampUserRole" parameterType="com.zcode.zjw.common.utils.db.Assist" resultMap="result_GhdqsOampUserRole_Map">
+	  select * from
+      (
+        select  rownum as page,result.* from
+        (
+          select  <if test="distinct !=null">${distinct}</if>
+            <choose>
+    	        <when test="resultColumn!=null">${resultColumn}</when>
+    	        <otherwise><include refid="GHDQS_OAMP_USER_ROLE_Column" /></otherwise>
+            </choose>
+              from GHDQS_OAMP_USER_ROLE 
+                <if test="require!=null"><include refid="assist" /></if>
+                <if test="order !=null">${order}</if>
+            ) result 
+            <if test="rowSize!=null">where rownum &lt;= <if test="startRow!=null">#{startRow}+</if>#{rowSize}</if>
+        )
+        <if test="startRow!=null">where page &gt; #{startRow} </if>
+	</select>
+	
+	<!-- 获得一个GhdqsOampUserRole对象,以参数GhdqsOampUserRole对象中不为空的属性作为条件进行查询 -->
+	<select id="selectGhdqsOampUserRoleObjSingle" parameterType="com.zcode.zjw.security.entity.GhdqsOampUserRole" resultMap="result_GhdqsOampUserRole_Map">
+		select
+		<include refid="GHDQS_OAMP_USER_ROLE_Column" />
+		from GHDQS_OAMP_USER_ROLE
+		<where>
+		<if test="roleId != null"> and ROLE_ID = #{roleId}</if>
+		<if test="userId != null"> and USER_ID = #{userId}</if>
+		
+		and rownum = 1
+		</where>
+	</select>
+	
+	<!-- 获得GhdqsOampUserRole对象,以参数GhdqsOampUserRole对象中不为空的属性作为条件进行查询 -->
+	<select id="selectGhdqsOampUserRoleByObj" parameterType="com.zcode.zjw.security.entity.GhdqsOampUserRole" resultMap="result_GhdqsOampUserRole_Map">
+		select
+		<include refid="GHDQS_OAMP_USER_ROLE_Column" />
+		from GHDQS_OAMP_USER_ROLE
+		<where>
+		<if test="roleId != null"> and ROLE_ID = #{roleId}</if>
+		<if test="userId != null"> and USER_ID = #{userId}</if>
+		
+		</where>
+	</select>
+
+	<!-- 将GhdqsOampUserRole插入到对应数据库的表中,包括属性值为null的数据 -->
+	<insert id="insertGhdqsOampUserRole" parameterType="com.zcode.zjw.security.entity.GhdqsOampUserRole">
+		insert into 
+		GHDQS_OAMP_USER_ROLE (USER_ID,ROLE_ID) 
+		values(#{userId},#{roleId})
+	</insert>
+
+	<!-- 将GhdqsOampUserRole中属性值不为null的数据,插入到对应数据库的表中 -->
+	<insert id="insertNotNullGhdqsOampUserRole" parameterType="com.zcode.zjw.security.entity.GhdqsOampUserRole">
+		insert into GHDQS_OAMP_USER_ROLE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null">USER_ID,</if>
+			<if test="roleId != null">ROLE_ID,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null">#{userId},</if>
+			<if test="roleId != null">#{roleId},</if>
+		</trim>
+	</insert>
+
+	<!-- 将GhdqsOampUserRole批量插入到对应数据库的表中 -->
+	<insert id="insertGhdqsOampUserRoleByBatch" parameterType="ArrayList">
+		insert into GHDQS_OAMP_USER_ROLE(USER_ID,ROLE_ID) values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.userId},#{item.roleId})
+		</foreach>
+	</insert>
+	
+
+	<!-- 通过辅助工具Assist中的条件将GhdqsOampUserRole对应的数据库表的数据删除 -->
+	<delete id="deleteGhdqsOampUserRoleByAssist" parameterType="com.zcode.zjw.common.utils.db.Assist">
+		delete from GHDQS_OAMP_USER_ROLE
+		<if test="require!=null">
+			<include refid="assist" />
+		</if>
+	</delete>
+	
+	
+	
+	<!-- 通过辅助工具Assist中的条件将GhdqsOampUserRole中的数据更新到数据库对应的表中,包括值为null的数据 -->
+	<update id="updateGhdqsOampUserRole" parameterType="map">
+		update GHDQS_OAMP_USER_ROLE
+		<set>
+			USER_ID = #{enti.userId},
+			ROLE_ID = #{enti.roleId},
+		</set>
+		<if test="assist.require!=null">
+			<include refid="updateAssist" />
+		</if>
+	</update>
+
+	<!-- 通过辅助工具Assist中的条件将GhdqsOampUserRole中属性值不为null的数据更新到数据库对应的表中 -->
+	<update id="updateNotNullGhdqsOampUserRole" parameterType="map">
+		update GHDQS_OAMP_USER_ROLE
+		<set>
+			<if test="enti.userId != null">USER_ID = #{enti.userId},</if>
+			<if test="enti.roleId != null">ROLE_ID = #{enti.roleId},</if>
+		</set>
+		<if test="assist.require!=null">
+			<include refid="updateAssist" />
+		</if>
+	</update>
+</mapper>

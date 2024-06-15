@@ -1,0 +1,7 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zcode.zjw.configs.config.ZcodeConfigurationSelector,\
+  com.zcode.zjw.configs.properties.ZcodeProperties,\
+  com.zcode.zjw.configs.db.ZcodeDbConfig,\
+  com.zcode.zjw.configs.utils.PropertiesUtil,\
+  com.zcode.zjw.configs.controller.ZcodeConfigPropertiesController,\
+  com.zcode.zjw.configs.service.impl.ConfigPropertiesServiceImpl

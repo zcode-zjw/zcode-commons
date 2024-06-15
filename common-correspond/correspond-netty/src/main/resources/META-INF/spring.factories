@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zcode.zjw.common.correspond.netty.config.NettyConfig,\
+  com.zcode.zjw.common.correspond.netty.config.NettyProperties,\
+  com.zcode.zjw.common.correspond.netty.core.NettyServerBoot

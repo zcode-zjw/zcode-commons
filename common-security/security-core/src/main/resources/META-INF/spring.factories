@@ -1,0 +1,17 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zcode.zjw.security.config.SecurityConfig,\
+  com.zcode.zjw.security.config.CorsConfig,\
+  com.zcode.zjw.security.controller.GhdqsOampMenuController,\
+  com.zcode.zjw.security.controller.GhdqsOampRoleController,\
+  com.zcode.zjw.security.controller.GhdqsOampRoleMenuController,\
+  com.zcode.zjw.security.controller.GhdqsOampUserController,\
+  com.zcode.zjw.security.controller.GhdqsOampUserRoleController,\
+  com.zcode.zjw.security.service.impl.GhdqsOampMenuServiceImpl,\
+  com.zcode.zjw.security.service.impl.GhdqsOampRoleMenuServiceImpl,\
+  com.zcode.zjw.security.service.impl.GhdqsOampRoleServiceImpl,\
+  com.zcode.zjw.security.service.impl.GhdqsOampUserRoleServiceImpl,\
+  com.zcode.zjw.security.service.impl.GhdqsOampUserServiceImpl,\
+  com.zcode.zjw.security.service.impl.UserDetailsServiceImpl,\
+  com.zcode.zjw.security.filter.AccessDeniedHandlerImpl,\
+  com.zcode.zjw.security.filter.AuthenticationEntryPointImpl,\
+  com.zcode.zjw.security.filter.JwtAuthenticationTokenFilter

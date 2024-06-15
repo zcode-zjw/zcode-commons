@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    com.zcode.zjw.common.file.ftp.service.impl.FtpFileServiceImpl

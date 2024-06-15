@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    url: jdbc:mysql://175.178.46.83:3306/zjwdb?useSSL=false&charsetEncoding=utf8
+    username: root
+    password: zlcode12345@
+    driver-class-name: com.mysql.jdbc.Driver
+  redis:
+    host: 175.178.46.83
+    port: 6379
+    password: zlcode12345@
+  quartz:
+    # 将任务等保存化到数据库
+    job-store-type: jdbc  #默认是memory
+    properties:
+      org:
+        quartz:
+          jobStore:
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+    # 程序结束时会等待quartz相关的内容结束
+    wait-for-jobs-to-complete-on-shutdown: true
+    # QuartzScheduler启动时更新己存在的Job,这样就不用每次修改targetObject后删除qrtz_job_details表对应记录
+    overwrite-existing-jobs: true
+    jdbc:
+      # 每次启动重新创建数据库中Quartz相关的表。若自己事先创建，可不配置下边两项
+      initialize-schema: always
+      schema: classpath:schema/tables_mysql.sql
+server:
+  port: 8081

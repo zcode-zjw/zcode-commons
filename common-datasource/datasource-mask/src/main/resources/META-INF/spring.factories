@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zcode.zjw.datasource.encrypt.DecryptImpl,\
+  com.zcode.zjw.datasource.encrypt.EncryptUtilImpl,\
+  com.zcode.zjw.datasource.interception.ResultSetInterceptor,\
+  com.zcode.zjw.datasource.interception.ParameterInterceptor

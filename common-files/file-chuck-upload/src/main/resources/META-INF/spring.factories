@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zcode.zjw.common.file.upload.chuck.config.FileProperty,\
+  com.zcode.zjw.common.file.upload.chuck.service.ChuckService,\
+  com.zcode.zjw.common.file.upload.chuck.service.ChuckFileService,\
+  com.zcode.zjw.common.file.upload.chuck.controller.ChuckFileController

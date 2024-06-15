@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zcode.zjw.ssh.config.PoolConfiguration,\
+  com.zcode.zjw.ssh.service.SSHService

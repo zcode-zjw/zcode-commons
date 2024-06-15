@@ -1,0 +1,6 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.zcode.zjw.web.config.WebMvcConfig,\
+com.zcode.zjw.web.config.MyWebMvcConfigurerAdapter,\
+com.zcode.zjw.web.config.MybatisSQLResolverInterceptor,\
+com.zcode.zjw.web.exception.GlobalExceptionHandler,\
+com.zcode.zjw.web.config.UploadConfig

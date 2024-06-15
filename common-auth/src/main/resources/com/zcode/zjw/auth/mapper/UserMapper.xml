@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zcode.zjw.auth.mapper.UserMapper">
+
+    <!-- 定义 ResultMap -->
+    <resultMap id="userFullInfoMap" type="com.zcode.zjw.auth.pojo.UserFullInfoVO">
+        <id property="id" column="id"/>
+        <result property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="userType" column="user_type"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="deleted" column="deleted"/>
+        <result property="icon" column="icon"/>
+        <result property="nickname" column="nickname"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="address" column="address"/>
+        <!-- 嵌套查询的结果 -->
+        <collection property="roles"
+                    ofType="com.zcode.zjw.auth.pojo.RoleFullInfoVO">
+            <id property="id" column="orderItems_id"/>
+            <result property="id" column="id"/>
+            <result property="role" column="role"/>
+            <result property="name" column="name"/>
+            <result property="createTime" column="create_time"/>
+            <result property="updateTime" column="update_time"/>
+            <result property="deleted" column="deleted"/>
+        </collection>
+    </resultMap>
+
+    <select id="finUserFullInfo" resultMap="userFullInfoMap">
+        SELECT *
+        FROM t_user u
+                 JOIN t_user_role ur ON u.id = ur.user_id
+                 JOIN t_role r ON ur.role_id = r.id
+        WHERE ur.role_id = (
+            SELECT role_id FROM t_user u LEFT JOIN t_user_role ur ON u.id = ur.user_id WHERE user_id = #{userId}
+        )
+    </select>
+
+</mapper>

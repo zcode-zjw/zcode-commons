@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zcode.zjw.common.web.query.config.MybatisPlusConfig,\
+  com.zcode.zjw.common.web.query.config.QueryParserWebConfig,\
+  com.zcode.zjw.common.web.query.enhancer.QueryParameterParseProcessor,\
+  com.zcode.zjw.common.web.query.enhancer.AggregateQueryAspect

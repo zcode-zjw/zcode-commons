@@ -1,0 +1,18 @@
+version: "3"
+services:
+  seata-server:
+    image: seataio/seata-server:1.3.0
+    container_name: seata-server
+    hostname: seata-server
+    ports:
+      - "8091:8091"
+    environment:
+      - SEATA_PORT=8091
+      - STORE_MODE=db
+      - SEATA_IP=192.168.243.138
+    volumes:
+      - ./seata-server/resources/registry.conf:/seata-server/resources/registry.conf
+      - ./logs:/data/logs/seata
+      
+
+

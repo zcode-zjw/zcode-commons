@@ -1,0 +1,14 @@
+# netty 配置
+netty:
+  # boss线程数量
+  boss: 4
+  # worker线程数量
+  worker: 2
+  # 连接超时时间
+  timeout: 6000
+  # 服务器主端口
+  port: 18023
+  # 服务器备用端口
+  portSalve: 18026
+  # 服务器地址
+  host: 127.0.0.1

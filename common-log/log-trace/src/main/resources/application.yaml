@@ -1,0 +1,22 @@
+server:
+  port: 9087
+
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/zjwdb?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&useSSL=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=UTC
+    username: root
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#  devtools:
+#    restart:
+#      enabled: true
+#      additional-paths: src/main/java
+#      exclude: static/**
+trace:
+  log:
+    backupRootDir: /Users/mac/Desktop/backup/
+    monitor:
+      scan: com/zcode/zjw/log/trace/test
+    local:
+      file:
+        path: /Users/mac/Desktop/logs/

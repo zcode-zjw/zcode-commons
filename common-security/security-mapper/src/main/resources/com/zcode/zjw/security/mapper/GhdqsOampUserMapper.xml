@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcode.zjw.security.mapper.GhdqsOampUserMapper">
+	<!-- GhdqsOampUser的resultMap,column是给数据库列起的别名,它对应property类的属性 -->
+	<resultMap id="result_GhdqsOampUser_Map" type="com.zcode.zjw.security.entity.GhdqsOampUser">
+		<id column="ID" property="id" />
+		<result column="USER_NAME" property="userName" />
+		<result column="NICK_NAME" property="nickName" />
+		<result column="PASSWORD" property="password" />
+		<result column="STATUS" property="status" />
+		<result column="EMAIL" property="email" />
+		<result column="PHONE_NUMBER" property="phoneNumber" />
+		<result column="SEX" property="sex" />
+		<result column="AVATAR" property="avatar" />
+		<result column="USER_TYPE" property="userType" />
+		<result column="CREATE_BY" property="createBy" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="UPDATE_BY" property="updateBy" />
+		<result column="UPDATE_TIME" property="updateTime" />
+		<result column="DEL_FLAG" property="delFlag" />
+	</resultMap>
+
+	<!-- assist是查询辅助工具类, ${req.require}表示列名,#{req.value}表示值它是防SQL注入的 -->
+	<sql id="assist">
+		<where>
+			<foreach collection="require" item="req" separator=" ">
+				${req.require}
+				<if test="req.value != null">
+					#{req.value}
+				</if>
+				<if test="req.values != null">
+					<foreach collection="req.values" item="value" separator=",">
+						#{value}
+					</foreach>
+				</if>
+				<if test="req.customRequire !=null">
+					<foreach collection="req.customRequire" item="cr" separator=" ">
+						${cr.require}
+						<if test="cr.value != null">
+							#{cr.value}
+						</if>
+						<if test="cr.values != null">
+							<foreach collection="cr.values" item="value"
+								separator=",">
+								#{value}
+							</foreach>
+						</if>
+						<if test="cr.suffix != null"> ${cr.suffix}</if>
+					</foreach>
+				</if>
+				<if test="req.suffix != null"> ${req.suffix}</if>
+			</foreach>
+		</where>
+	</sql>
+
+	<!-- updateAssist用于更新数据查询辅助工具类,作用assist与一致 -->
+	<sql id="updateAssist">
+		<where>
+			<foreach collection="assist.require" item="req" separator=" ">
+				${req.require}
+				<if test="req.value != null">
+					#{req.value}
+				</if>
+				<if test="req.values != null">
+					<foreach collection="req.values" item="value" separator=",">
+						#{value}
+					</foreach>
+				</if>
+				<if test="req.customRequire !=null">
+					<foreach collection="req.customRequire" item="cr" separator=" ">
+						${cr.require}
+						<if test="cr.value != null">
+							#{cr.value}
+						</if>
+						<if test="cr.values != null">
+							<foreach collection="cr.values" item="value"
+								separator=",">
+								#{value}
+							</foreach>
+						</if>
+						<if test="cr.suffix != null"> ${cr.suffix}</if>
+					</foreach>
+				</if>
+				<if test="req.suffix != null"> ${req.suffix}</if>
+			</foreach>
+		</where>
+	</sql>
+
+	<!-- 数据库中表名为:GHDQS_OAMP_USER的列名 -->
+	<sql id="GHDQS_OAMP_USER_Column">
+		ID,USER_NAME,NICK_NAME,PASSWORD,STATUS,EMAIL,PHONE_NUMBER,SEX,AVATAR,USER_TYPE,CREATE_BY,CREATE_TIME,UPDATE_BY,UPDATE_TIME,DEL_FLAG
+	</sql>
+
+	<!--获得类名为:GhdqsOampUser对应的数据库表的数据总行数 -->
+	<select id="getGhdqsOampUserRowCount" parameterType="com.zcode.zjw.common.utils.db.Assist" resultType="java.lang.Long">
+		select count(*) from GHDQS_OAMP_USER
+		<if test="require!=null">
+			<include refid="assist" />
+		</if>
+	</select>
+
+	<!-- 获得类名为:GhdqsOampUser对应数据库中表的数据集合 -->
+	<select id="selectGhdqsOampUser" parameterType="com.zcode.zjw.common.utils.db.Assist" resultMap="result_GhdqsOampUser_Map">
+	  select * from
+      (
+        select  rownum as page,result.* from
+        (
+          select  <if test="distinct !=null">${distinct}</if>
+            <choose>
+    	        <when test="resultColumn!=null">${resultColumn}</when>
+    	        <otherwise><include refid="GHDQS_OAMP_USER_Column" /></otherwise>
+            </choose>
+              from GHDQS_OAMP_USER
+                <if test="require!=null"><include refid="assist" /></if>
+                <if test="order !=null">${order}</if>
+            ) result
+            <if test="rowSize!=null">where rownum &lt;= <if test="startRow!=null">#{startRow}+</if>#{rowSize}</if>
+        )
+        <if test="startRow!=null">where page &gt; #{startRow} </if>
+	</select>
+	<!-- 通过GhdqsOampUser的id获得对应数据库中表的数据对象 -->
+	<select id="selectGhdqsOampUserById" parameterType="Integer" resultMap="result_GhdqsOampUser_Map">
+		select
+		<include refid="GHDQS_OAMP_USER_Column" />
+		from GHDQS_OAMP_USER
+		where ID = #{id}
+	</select>
+
+	<!-- 获得一个GhdqsOampUser对象,以参数GhdqsOampUser对象中不为空的属性作为条件进行查询 -->
+	<select id="selectGhdqsOampUserObjSingle" parameterType="com.zcode.zjw.security.entity.GhdqsOampUser" resultMap="result_GhdqsOampUser_Map">
+		select
+		<include refid="GHDQS_OAMP_USER_Column" />
+		from GHDQS_OAMP_USER
+		<where>
+		<if test="userName != null"> and USER_NAME = #{userName}</if>
+		<if test="nickName != null"> and NICK_NAME = #{nickName}</if>
+		<if test="password != null"> and PASSWORD = #{password}</if>
+		<if test="status != null"> and STATUS = #{status}</if>
+		<if test="email != null"> and EMAIL = #{email}</if>
+		<if test="phoneNumber != null"> and PHONE_NUMBER = #{phoneNumber}</if>
+		<if test="sex != null"> and SEX = #{sex}</if>
+		<if test="avatar != null"> and AVATAR = #{avatar}</if>
+		<if test="userType != null"> and USER_TYPE = #{userType}</if>
+		<if test="createBy != null"> and CREATE_BY = #{createBy}</if>
+		<if test="createTime != null"> and CREATE_TIME = #{createTime}</if>
+		<if test="updateBy != null"> and UPDATE_BY = #{updateBy}</if>
+		<if test="updateTime != null"> and UPDATE_TIME = #{updateTime}</if>
+		<if test="delFlag != null"> and DEL_FLAG = #{delFlag}</if>
+		<if test="id!= null "> and ID = #{id} </if>
+		and rownum = 1
+		</where>
+	</select>
+
+	<!-- 获得GhdqsOampUser对象,以参数GhdqsOampUser对象中不为空的属性作为条件进行查询 -->
+	<select id="selectGhdqsOampUserByObj" parameterType="com.zcode.zjw.security.entity.GhdqsOampUser" resultMap="result_GhdqsOampUser_Map">
+		select
+		<include refid="GHDQS_OAMP_USER_Column" />
+		from GHDQS_OAMP_USER
+		<where>
+		<if test="userName != null"> and USER_NAME = #{userName}</if>
+		<if test="nickName != null"> and NICK_NAME = #{nickName}</if>
+		<if test="password != null"> and PASSWORD = #{password}</if>
+		<if test="status != null"> and STATUS = #{status}</if>
+		<if test="email != null"> and EMAIL = #{email}</if>
+		<if test="phoneNumber != null"> and PHONE_NUMBER = #{phoneNumber}</if>
+		<if test="sex != null"> and SEX = #{sex}</if>
+		<if test="avatar != null"> and AVATAR = #{avatar}</if>
+		<if test="userType != null"> and USER_TYPE = #{userType}</if>
+		<if test="createBy != null"> and CREATE_BY = #{createBy}</if>
+		<if test="createTime != null"> and CREATE_TIME = #{createTime}</if>
+		<if test="updateBy != null"> and UPDATE_BY = #{updateBy}</if>
+		<if test="updateTime != null"> and UPDATE_TIME = #{updateTime}</if>
+		<if test="delFlag != null"> and DEL_FLAG = #{delFlag}</if>
+		<if test="id != null"> and ID = #{id} </if>
+		</where>
+	</select>
+
+	<!-- 将GhdqsOampUser插入到对应数据库的表中,包括属性值为null的数据 -->
+	<insert id="insertGhdqsOampUser" parameterType="com.zcode.zjw.security.entity.GhdqsOampUser">
+		insert into
+		GHDQS_OAMP_USER (ID,USER_NAME,NICK_NAME,PASSWORD,STATUS,EMAIL,PHONE_NUMBER,SEX,AVATAR,USER_TYPE,CREATE_BY,CREATE_TIME,UPDATE_BY,UPDATE_TIME,DEL_FLAG)
+		values(#{id},#{userName},#{nickName},#{password},#{status},#{email},#{phoneNumber},#{sex},#{avatar},#{userType},#{createBy},#{createTime},#{updateBy},#{updateTime},#{delFlag})
+	</insert>
+
+	<!-- 将GhdqsOampUser中属性值不为null的数据,插入到对应数据库的表中 -->
+	<insert id="insertNotNullGhdqsOampUser" parameterType="com.zcode.zjw.security.entity.GhdqsOampUser">
+		insert into GHDQS_OAMP_USER
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">ID,</if>
+			<if test="userName != null">USER_NAME,</if>
+			<if test="nickName != null">NICK_NAME,</if>
+			<if test="password != null">PASSWORD,</if>
+			<if test="status != null">STATUS,</if>
+			<if test="email != null">EMAIL,</if>
+			<if test="phoneNumber != null">PHONE_NUMBER,</if>
+			<if test="sex != null">SEX,</if>
+			<if test="avatar != null">AVATAR,</if>
+			<if test="userType != null">USER_TYPE,</if>
+			<if test="createBy != null">CREATE_BY,</if>
+			<if test="createTime != null">CREATE_TIME,</if>
+			<if test="updateBy != null">UPDATE_BY,</if>
+			<if test="updateTime != null">UPDATE_TIME,</if>
+			<if test="delFlag != null">DEL_FLAG,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="userName != null">#{userName},</if>
+			<if test="nickName != null">#{nickName},</if>
+			<if test="password != null">#{password},</if>
+			<if test="status != null">#{status},</if>
+			<if test="email != null">#{email},</if>
+			<if test="phoneNumber != null">#{phoneNumber},</if>
+			<if test="sex != null">#{sex},</if>
+			<if test="avatar != null">#{avatar},</if>
+			<if test="userType != null">#{userType},</if>
+			<if test="createBy != null">#{createBy},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="updateBy != null">#{updateBy},</if>
+			<if test="updateTime != null">#{updateTime},</if>
+			<if test="delFlag != null">#{delFlag},</if>
+		</trim>
+	</insert>
+
+	<!-- 将GhdqsOampUser批量插入到对应数据库的表中 -->
+	<insert id="insertGhdqsOampUserByBatch" parameterType="ArrayList">
+		insert into GHDQS_OAMP_USER(ID,USER_NAME,NICK_NAME,PASSWORD,STATUS,EMAIL,PHONE_NUMBER,SEX,AVATAR,USER_TYPE,CREATE_BY,CREATE_TIME,UPDATE_BY,UPDATE_TIME,DEL_FLAG) values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.id},#{item.userName},#{item.nickName},#{item.password},#{item.status},#{item.email},#{item.phoneNumber},#{item.sex},#{item.avatar},#{item.userType},#{item.createBy},#{item.createTime},#{item.updateBy},#{item.updateTime},#{item.delFlag})
+		</foreach>
+	</insert>
+
+	<!-- 通过GhdqsOampUser的id将数据库表中对应的数据删除 -->
+	<delete id="deleteGhdqsOampUserById" parameterType="Integer">
+		delete from GHDQS_OAMP_USER
+		where  ID  =  #{id}
+	</delete>
+
+	<!-- 通过辅助工具Assist中的条件将GhdqsOampUser对应的数据库表的数据删除 -->
+	<delete id="deleteGhdqsOampUserByAssist" parameterType="com.zcode.zjw.common.utils.db.Assist">
+		delete from GHDQS_OAMP_USER
+		<if test="require!=null">
+			<include refid="assist" />
+		</if>
+	</delete>
+
+	<!-- 通过GhdqsOampUser的id将GhdqsOampUser的数据更新到数据库中对应的表,包括值null的数据 -->
+	<update id="updateGhdqsOampUserById" parameterType="com.zcode.zjw.security.entity.GhdqsOampUser">
+		update GHDQS_OAMP_USER set
+		<set>
+			USER_NAME = #{userName} ,
+			NICK_NAME = #{nickName} ,
+			PASSWORD = #{password} ,
+			STATUS = #{status} ,
+			EMAIL = #{email} ,
+			PHONE_NUMBER = #{phoneNumber} ,
+			SEX = #{sex} ,
+			AVATAR = #{avatar} ,
+			USER_TYPE = #{userType} ,
+			CREATE_BY = #{createBy} ,
+			CREATE_TIME = #{createTime} ,
+			UPDATE_BY = #{updateBy} ,
+			UPDATE_TIME = #{updateTime} ,
+			DEL_FLAG = #{delFlag} ,
+		</set>
+		where ID = #{id}
+	</update>
+
+	<!-- 通过GhdqsOampUser的id将GhdqsOampUser中属性值不为null的数据更新到数据库对应的表中 -->
+	<update id="updateNotNullGhdqsOampUserById" parameterType="com.zcode.zjw.security.entity.GhdqsOampUser">
+		update GHDQS_OAMP_USER
+		<set>
+			<if test="userName != null">USER_NAME = #{userName},</if>
+			<if test="nickName != null">NICK_NAME = #{nickName},</if>
+			<if test="password != null">PASSWORD = #{password},</if>
+			<if test="status != null">STATUS = #{status},</if>
+			<if test="email != null">EMAIL = #{email},</if>
+			<if test="phoneNumber != null">PHONE_NUMBER = #{phoneNumber},</if>
+			<if test="sex != null">SEX = #{sex},</if>
+			<if test="avatar != null">AVATAR = #{avatar},</if>
+			<if test="userType != null">USER_TYPE = #{userType},</if>
+			<if test="createBy != null">CREATE_BY = #{createBy},</if>
+			<if test="createTime != null">CREATE_TIME = #{createTime},</if>
+			<if test="updateBy != null">UPDATE_BY = #{updateBy},</if>
+			<if test="updateTime != null">UPDATE_TIME = #{updateTime},</if>
+			<if test="delFlag != null">DEL_FLAG = #{delFlag},</if>
+		</set>
+		where ID = #{id}
+	</update>
+
+	<!-- 通过辅助工具Assist中的条件将GhdqsOampUser中的数据更新到数据库对应的表中,包括值为null的数据 -->
+	<update id="updateGhdqsOampUser" parameterType="map">
+		update GHDQS_OAMP_USER
+		<set>
+			ID = #{enti.id},
+			USER_NAME = #{enti.userName},
+			NICK_NAME = #{enti.nickName},
+			PASSWORD = #{enti.password},
+			STATUS = #{enti.status},
+			EMAIL = #{enti.email},
+			PHONE_NUMBER = #{enti.phoneNumber},
+			SEX = #{enti.sex},
+			AVATAR = #{enti.avatar},
+			USER_TYPE = #{enti.userType},
+			CREATE_BY = #{enti.createBy},
+			CREATE_TIME = #{enti.createTime},
+			UPDATE_BY = #{enti.updateBy},
+			UPDATE_TIME = #{enti.updateTime},
+			DEL_FLAG = #{enti.delFlag},
+		</set>
+		<if test="assist.require!=null">
+			<include refid="updateAssist" />
+		</if>
+	</update>
+
+	<!-- 通过辅助工具Assist中的条件将GhdqsOampUser中属性值不为null的数据更新到数据库对应的表中 -->
+	<update id="updateNotNullGhdqsOampUser" parameterType="map">
+		update GHDQS_OAMP_USER
+		<set>
+			<if test="enti.id != null">ID = #{enti.id},</if>
+			<if test="enti.userName != null">USER_NAME = #{enti.userName},</if>
+			<if test="enti.nickName != null">NICK_NAME = #{enti.nickName},</if>
+			<if test="enti.password != null">PASSWORD = #{enti.password},</if>
+			<if test="enti.status != null">STATUS = #{enti.status},</if>
+			<if test="enti.email != null">EMAIL = #{enti.email},</if>
+			<if test="enti.phoneNumber != null">PHONE_NUMBER = #{enti.phoneNumber},</if>
+			<if test="enti.sex != null">SEX = #{enti.sex},</if>
+			<if test="enti.avatar != null">AVATAR = #{enti.avatar},</if>
+			<if test="enti.userType != null">USER_TYPE = #{enti.userType},</if>
+			<if test="enti.createBy != null">CREATE_BY = #{enti.createBy},</if>
+			<if test="enti.createTime != null">CREATE_TIME = #{enti.createTime},</if>
+			<if test="enti.updateBy != null">UPDATE_BY = #{enti.updateBy},</if>
+			<if test="enti.updateTime != null">UPDATE_TIME = #{enti.updateTime},</if>
+			<if test="enti.delFlag != null">DEL_FLAG = #{enti.delFlag},</if>
+		</set>
+		<if test="assist.require!=null">
+			<include refid="updateAssist" />
+		</if>
+	</update>
+
+	<select id="selectGhdqsOampUserByNameAndPwd" resultMap="result_GhdqsOampUser_Map">
+		SELECT * FROM GHDQS_OAMP_USER WHERE USER_NAME = #{userName} AND PASSWORD = #{password}
+    </select>
+</mapper>

@@ -1,0 +1,8 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zcode.zjw.schedule.quartz.listener.BusinessJobListener,\
+  com.zcode.zjw.schedule.quartz.model.JobProperties,\
+  com.zcode.zjw.schedule.quartz.util.RedisUtils,\
+  com.zcode.zjw.schedule.quartz.support.JobManager,\
+  com.zcode.zjw.schedule.quartz.support.BusinessJob,\
+  com.zcode.zjw.schedule.quartz.support.JobMonitor,\
+  com.zcode.zjw.schedule.quartz.service.JobService

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zcode.zjw.auth.mapper.RoleMapper">
+
+    <!-- 定义 ResultMap -->
+    <resultMap id="roleFullInfoMap" type="com.zcode.zjw.auth.pojo.RoleFullInfoVO">
+        <id property="id" column="orderItems_id"/>
+        <result property="id" column="id"/>
+        <result property="role" column="role"/>
+        <result property="name" column="name"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="deleted" column="deleted"/>
+        <collection property="menus" ofType="com.zcode.zjw.auth.pojo.SysMenu">
+            <id property="id" column="id"/>
+            <result property="menuName" column="menu_name"/>
+            <result property="path" column="path"/>
+            <result property="component" column="component"/>
+            <result property="visible" column="visible"/>
+            <result property="status" column="status"/>
+            <result property="perms" column="perms"/>
+            <result property="icon" column="icon"/>
+            <result property="createBy" column="create_by"/>
+            <result property="createTime" column="create_time"/>
+            <result property="updateBy" column="updateBy"/>
+            <result property="updateTime" column="update_time"/>
+            <result property="delFlag" column="del_flag"/>
+            <result property="remark" column="remark"/>
+        </collection>
+    </resultMap>
+
+    <select id="findRoleFullInfo" resultMap="roleFullInfoMap">
+        SELECT *
+        FROM t_role r
+                 LEFT JOIN etl_sys_menu_role_rel mr ON r.id = mr.role_id
+                 LEFT JOIN etl_sys_menu m ON mr.menu_id = m.id
+        WHERE role_id = (SELECT role_id
+                         FROM t_user u
+                                  LEFT JOIN t_user_role ur ON u.id = ur.user_id
+                         WHERE user_id = #{userId})
+    </select>
+
+</mapper>

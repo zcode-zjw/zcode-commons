@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zcode.zjw.web.datamask.config.DataMaskConfiguration,\
+  com.zcode.zjw.web.datamask.core.DataMaskingAnnotationIntrospector

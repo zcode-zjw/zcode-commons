@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zcode.zjw.log.user.enhancer.UserLogAspect,\
+  com.zcode.zjw.log.user.service.impl.GhdqsOampUserLogServiceImpl

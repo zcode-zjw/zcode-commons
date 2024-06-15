@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcode.zjw.log.user.mapper.GhdqsOampUserLogMapper">
+	<!-- GhdqsOampUserLog的resultMap,column是给数据库列起的别名,它对应property类的属性 -->
+	<resultMap id="result_GhdqsOampUserLog_Map" type="com.zcode.zjw.log.user.entity.GhdqsOampUserLog">
+		<id column="ID" property="id" />
+		<result column="TYPE" property="type" />
+		<result column="OPERATOR_ID" property="operatorId" />
+		<result column="OPERATE_TIME" property="operateTime" />
+		<result column="MODULE_CODE" property="moduleCode" />
+		<result column="TITLE" property="title" />
+		<result column="CONTENT" property="content" />
+	</resultMap>
+
+	<!-- assist是查询辅助工具类, ${req.require}表示列名,#{req.value}表示值它是防SQL注入的 -->
+	<sql id="assist">
+		<where>
+			<foreach collection="require" item="req" separator=" ">
+				${req.require}
+				<if test="req.value != null">
+					#{req.value}
+				</if>
+				<if test="req.values != null">
+					<foreach collection="req.values" item="value" separator=",">
+						#{value}
+					</foreach>
+				</if>
+				<if test="req.customRequire !=null">
+					<foreach collection="req.customRequire" item="cr" separator=" ">
+						${cr.require}
+						<if test="cr.value != null">
+							#{cr.value}
+						</if>
+						<if test="cr.values != null">
+							<foreach collection="cr.values" item="value"
+								separator=",">
+								#{value}
+							</foreach>
+						</if>
+						<if test="cr.suffix != null"> ${cr.suffix}</if>
+					</foreach>
+				</if>
+				<if test="req.suffix != null"> ${req.suffix}</if>
+			</foreach>
+		</where>
+	</sql>
+
+	<!-- updateAssist用于更新数据查询辅助工具类,作用assist与一致 -->
+	<sql id="updateAssist">
+		<where>
+			<foreach collection="assist.require" item="req" separator=" ">
+				${req.require}
+				<if test="req.value != null">
+					#{req.value}
+				</if>
+				<if test="req.values != null">
+					<foreach collection="req.values" item="value" separator=",">
+						#{value}
+					</foreach>
+				</if>
+				<if test="req.customRequire !=null">
+					<foreach collection="req.customRequire" item="cr" separator=" ">
+						${cr.require}
+						<if test="cr.value != null">
+							#{cr.value}
+						</if>
+						<if test="cr.values != null">
+							<foreach collection="cr.values" item="value"
+								separator=",">
+								#{value}
+							</foreach>
+						</if>
+						<if test="cr.suffix != null"> ${cr.suffix}</if>
+					</foreach>
+				</if>
+				<if test="req.suffix != null"> ${req.suffix}</if>
+			</foreach>
+		</where>
+	</sql>
+
+	<!-- 数据库中表名为:GHDQS_OAMP_USER_LOG的列名 -->
+	<sql id="GHDQS_OAMP_USER_LOG_Column">
+		ID,MODULE_CODE,TYPE,TITLE,OPERATOR_ID,OPERATE_TIME,CONTENT
+	</sql>
+
+	<!--获得类名为:GhdqsOampUserLog对应的数据库表的数据总行数 -->
+	<select id="getGhdqsOampUserLogRowCount" parameterType="com.zcode.zjw.common.utils.db.Assist" resultType="java.lang.Long">
+		select count(*) from GHDQS_OAMP_USER_LOG
+		<if test="require!=null">
+			<include refid="assist" />
+		</if>
+	</select>
+	
+	<!-- 获得类名为:GhdqsOampUserLog对应数据库中表的数据集合 -->
+	<select id="selectGhdqsOampUserLog" parameterType="com.zcode.zjw.common.utils.db.Assist" resultMap="result_GhdqsOampUserLog_Map">
+	  select * from
+      (
+        select  rownum as page,result.* from
+        (
+          select  <if test="distinct !=null">${distinct}</if>
+            <choose>
+    	        <when test="resultColumn!=null">${resultColumn}</when>
+    	        <otherwise><include refid="GHDQS_OAMP_USER_LOG_Column" /></otherwise>
+            </choose>
+              from GHDQS_OAMP_USER_LOG 
+                <if test="require!=null"><include refid="assist" /></if>
+                <if test="order !=null">${order}</if>
+            ) result 
+            <if test="rowSize!=null">where rownum &lt;= <if test="startRow!=null">#{startRow}+</if>#{rowSize}</if>
+        )
+        <if test="startRow!=null">where page &gt; #{startRow} </if>
+	</select>
+	<!-- 通过GhdqsOampUserLog的id获得对应数据库中表的数据对象 -->
+	<select id="selectGhdqsOampUserLogById" parameterType="Integer" resultMap="result_GhdqsOampUserLog_Map">
+		select
+		<include refid="GHDQS_OAMP_USER_LOG_Column" />
+		from GHDQS_OAMP_USER_LOG
+		where ID = #{id}
+	</select>
+	
+	<!-- 获得一个GhdqsOampUserLog对象,以参数GhdqsOampUserLog对象中不为空的属性作为条件进行查询 -->
+	<select id="selectGhdqsOampUserLogObjSingle" parameterType="com.zcode.zjw.log.user.entity.GhdqsOampUserLog" resultMap="result_GhdqsOampUserLog_Map">
+		select
+		<include refid="GHDQS_OAMP_USER_LOG_Column" />
+		from GHDQS_OAMP_USER_LOG
+		<where>
+		<if test="moduleCode != null"> and MODULE_CODE = #{moduleCode}</if>
+		<if test="title != null"> and TITLE = #{title}</if>
+		<if test="content != null"> and CONTENT = #{content}</if>
+		<if test="type != null"> and TYPE = #{type}</if>
+		<if test="operatorId != null"> and OPERATOR_ID = #{operatorId}</if>
+		<if test="operateTime != null"> and OPERATE_TIME = #{operateTime}</if>
+		<if test="id != null"> and ID = #{id} </if>
+		and rownum = 1
+		</where>
+	</select>
+	
+	<!-- 获得GhdqsOampUserLog对象,以参数GhdqsOampUserLog对象中不为空的属性作为条件进行查询 -->
+	<select id="selectGhdqsOampUserLogByObj" parameterType="com.zcode.zjw.log.user.entity.GhdqsOampUserLog" resultMap="result_GhdqsOampUserLog_Map">
+		select
+		<include refid="GHDQS_OAMP_USER_LOG_Column" />
+		from GHDQS_OAMP_USER_LOG
+		<where>
+		<if test="moduleCode != null"> and MODULE_CODE = #{moduleCode}</if>
+		<if test="title != null"> and TITLE = #{title}</if>
+		<if test="content != null"> and CONTENT = #{content}</if>
+		<if test="type != null"> and TYPE = #{type}</if>
+		<if test="operatorId != null"> and OPERATOR_ID = #{operatorId}</if>
+		<if test="operateTime != null"> and OPERATE_TIME = #{operateTime}</if>
+		<if test="id != null"> and ID = #{id} </if>
+		</where>
+	</select>
+
+	<!-- 将GhdqsOampUserLog插入到对应数据库的表中,包括属性值为null的数据 -->
+	<insert id="insertGhdqsOampUserLog" parameterType="com.zcode.zjw.log.user.entity.GhdqsOampUserLog">
+		insert into 
+		GHDQS_OAMP_USER_LOG (ID,MODULE_CODE,TYPE,TITLE,OPERATOR_ID,OPERATE_TIME,CONTENT) 
+		values(#{id},#{moduleCode},#{type},#{title},#{operatorId},#{operateTime},#{content})
+	</insert>
+
+	<!-- 将GhdqsOampUserLog中属性值不为null的数据,插入到对应数据库的表中 -->
+	<insert id="insertNotNullGhdqsOampUserLog" parameterType="com.zcode.zjw.log.user.entity.GhdqsOampUserLog">
+		insert into GHDQS_OAMP_USER_LOG
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">ID,</if>
+			<if test="moduleCode != null">MODULE_CODE,</if>
+			<if test="type != null">TYPE,</if>
+			<if test="title != null">TITLE,</if>
+			<if test="operatorId != null">OPERATOR_ID,</if>
+			<if test="operateTime != null">OPERATE_TIME,</if>
+			<if test="content != null">CONTENT,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="moduleCode != null">#{moduleCode},</if>
+			<if test="type != null">#{type},</if>
+			<if test="title != null">#{title},</if>
+			<if test="operatorId != null">#{operatorId},</if>
+			<if test="operateTime != null">#{operateTime},</if>
+			<if test="content != null">#{content},</if>
+		</trim>
+	</insert>
+
+	<!-- 将GhdqsOampUserLog批量插入到对应数据库的表中 -->
+	<insert id="insertGhdqsOampUserLogByBatch" parameterType="ArrayList">
+		insert into GHDQS_OAMP_USER_LOG(ID,MODULE_CODE,TYPE,TITLE,OPERATOR_ID,OPERATE_TIME,CONTENT) values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.id},#{item.moduleCode},#{item.type},#{item.title},#{item.operatorId},#{item.operateTime},#{item.content})
+		</foreach>
+	</insert>
+	
+	<!-- 通过GhdqsOampUserLog的id将数据库表中对应的数据删除 -->
+	<delete id="deleteGhdqsOampUserLogById" parameterType="Integer">
+		delete from GHDQS_OAMP_USER_LOG
+		where  ID  =  #{id}
+	</delete>
+
+	<!-- 通过辅助工具Assist中的条件将GhdqsOampUserLog对应的数据库表的数据删除 -->
+	<delete id="deleteGhdqsOampUserLogByAssist" parameterType="com.zcode.zjw.common.utils.db.Assist">
+		delete from GHDQS_OAMP_USER_LOG
+		<if test="require!=null">
+			<include refid="assist" />
+		</if>
+	</delete>
+	
+	<!-- 通过GhdqsOampUserLog的id将GhdqsOampUserLog的数据更新到数据库中对应的表,包括值null的数据 -->
+	<update id="updateGhdqsOampUserLogById" parameterType="com.zcode.zjw.log.user.entity.GhdqsOampUserLog">
+		update GHDQS_OAMP_USER_LOG set
+		<set>
+			MODULE_CODE = #{moduleCode} , 
+			TYPE = #{type} , 
+			TITLE = #{title} , 
+			OPERATOR_ID = #{operatorId} , 
+			OPERATE_TIME = #{operateTime} , 
+			CONTENT = #{content} , 
+		</set>
+		where ID = #{id}
+	</update>
+	
+	<!-- 通过GhdqsOampUserLog的id将GhdqsOampUserLog中属性值不为null的数据更新到数据库对应的表中 -->
+	<update id="updateNotNullGhdqsOampUserLogById" parameterType="com.zcode.zjw.log.user.entity.GhdqsOampUserLog">
+		update GHDQS_OAMP_USER_LOG
+		<set>
+					<if test="moduleCode != null">MODULE_CODE = #{moduleCode},</if>
+					<if test="type != null">TYPE = #{type},</if>
+					<if test="title != null">TITLE = #{title},</if>
+					<if test="operatorId != null">OPERATOR_ID = #{operatorId},</if>
+					<if test="operateTime != null">OPERATE_TIME = #{operateTime},</if>
+					<if test="content != null">CONTENT = #{content},</if>
+		</set>
+		where ID = #{id}
+	</update>
+	
+	<!-- 通过辅助工具Assist中的条件将GhdqsOampUserLog中的数据更新到数据库对应的表中,包括值为null的数据 -->
+	<update id="updateGhdqsOampUserLog" parameterType="map">
+		update GHDQS_OAMP_USER_LOG
+		<set>
+			ID = #{enti.id},
+			MODULE_CODE = #{enti.moduleCode},
+			TYPE = #{enti.type},
+			TITLE = #{enti.title},
+			OPERATOR_ID = #{enti.operatorId},
+			OPERATE_TIME = #{enti.operateTime},
+			CONTENT = #{enti.content},
+		</set>
+		<if test="assist.require!=null">
+			<include refid="updateAssist" />
+		</if>
+	</update>
+
+	<!-- 通过辅助工具Assist中的条件将GhdqsOampUserLog中属性值不为null的数据更新到数据库对应的表中 -->
+	<update id="updateNotNullGhdqsOampUserLog" parameterType="map">
+		update GHDQS_OAMP_USER_LOG
+		<set>
+			<if test="enti.id != null">ID = #{enti.id},</if>
+			<if test="enti.moduleCode != null">MODULE_CODE = #{enti.moduleCode},</if>
+			<if test="enti.type != null">TYPE = #{enti.type},</if>
+			<if test="enti.title != null">TITLE = #{enti.title},</if>
+			<if test="enti.operatorId != null">OPERATOR_ID = #{enti.operatorId},</if>
+			<if test="enti.operateTime != null">OPERATE_TIME = #{enti.operateTime},</if>
+			<if test="enti.content != null">CONTENT = #{enti.content},</if>
+		</set>
+		<if test="assist.require!=null">
+			<include refid="updateAssist" />
+		</if>
+	</update>
+</mapper>

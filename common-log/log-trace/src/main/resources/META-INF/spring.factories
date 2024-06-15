@@ -1,0 +1,8 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zcode.zjw.log.trace.domain.core.subject.monitor.ApiRequestAspect,\
+  com.zcode.zjw.log.trace.interfaces.facade.LogTraceMethodApi,\
+  com.zcode.zjw.log.trace.interfaces.facade.HistoryRequestApi,\
+  com.zcode.zjw.log.trace.domain.core.repository.TraceLogInfoRepository,\
+  com.zcode.zjw.log.trace.domain.core.subject.monitor.RestTemplateConfig,\
+  com.zcode.zjw.log.trace.domain.request.service.HistoryRequestService,\
+  com.zcode.zjw.log.trace.domain.core.service.TraceMethodManager

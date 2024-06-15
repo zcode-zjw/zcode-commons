@@ -1,0 +1,21 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zcode.zjw.timejob.context.impl.TimeJobApplicationAdvice,\
+  com.zcode.zjw.timejob.config.AutoConfigTimeJob,\
+  com.zcode.zjw.timejob.union.handler.impl.StartTaskASyncModeHandler,\
+  com.zcode.zjw.timejob.union.handler.impl.StartTaskCronStringHandler,\
+  com.zcode.zjw.timejob.union.handler.impl.StartTaskRecordTotalHandler,\
+  com.zcode.zjw.timejob.union.infrastructure.config.JobRegisterSetConfig,\
+  com.zcode.zjw.timejob.union.infrastructure.config.JobRunTaskProxyConfig,\
+  com.zcode.zjw.timejob.union.infrastructure.config.JobStartRunTableConfig,\
+  com.zcode.zjw.timejob.union.infrastructure.config.JobThreadPoolConfig,\
+  com.zcode.zjw.timejob.union.infrastructure.config.TimeJobProperties,\
+  com.zcode.zjw.timejob.union.infrastructure.config.ObjectMapperConfig,\
+  com.zcode.zjw.timejob.union.infrastructure.config.SpringAsyncConfig,\
+  com.zcode.zjw.timejob.union.infrastructure.config.ThreadJobSchedulerConfig,\
+  com.zcode.zjw.timejob.union.infrastructure.factory.EventLoader,\
+  com.zcode.zjw.timejob.union.infrastructure.factory.impl.TimeJobEventFactory,\
+  com.zcode.zjw.timejob.union.manager.impl.JobTransactionManager,\
+  com.zcode.zjw.timejob.union.listener.StopWorkTaskLivedAdvice,\
+  com.zcode.zjw.timejob.union.listener.event.impl.TimeJobPublisher,\
+  com.zcode.zjw.timejob.union.listener.event.impl.TimeJobStartOperateEvent,\
+  com.zcode.zjw.timejob.union.listener.event.impl.TimeJobStopOperateEvent

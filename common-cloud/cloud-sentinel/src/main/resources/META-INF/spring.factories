@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zcode.zjw.cloud.sentinel.handler.DefaultBlockExceptionHandler,\
+  com.zcode.zjw.cloud.sentinel.handler.RequestOriginParserDefinition

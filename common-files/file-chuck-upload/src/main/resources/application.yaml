@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: chuck-file-test-service
+  # 数据库配置
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/zjwdb?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&useSSL=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=UTC
+    username: root
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+file:
+  base-directory: /Volumes/DataDisk/test/chuck_file
+server:
+  port: 8034

@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zcode.zjw.common.middleware.canal.config.ZcodeCanalThreadPoolConfig,\
+  com.zcode.zjw.common.middleware.canal.core.CanalDataEventListener,\
+  com.zcode.zjw.common.middleware.canal.core.CanalClient

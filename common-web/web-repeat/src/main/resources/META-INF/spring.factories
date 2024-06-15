@@ -1,0 +1,10 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zcode.zjw.web.repeat.config.DeduplicateConfig,\
+  com.zcode.zjw.web.repeat.enhancer.DeduplicateAspect,\
+  com.zcode.zjw.web.repeat.intercept.DeduplicateAdvice,\
+  com.zcode.zjw.web.repeat.intercept.DeduplicateInterceptor,\
+  com.zcode.zjw.web.repeat.service.CheckDuplicateServiceLoader,\
+  com.zcode.zjw.web.repeat.service.impl.CheckDuplicateCacheImpl,\
+  com.zcode.zjw.web.repeat.service.impl.CheckDuplicateLocalMethodImpl,\
+  com.zcode.zjw.web.repeat.service.impl.CheckDuplicateSessionImpl,\
+  com.zcode.zjw.web.repeat.controller.RepeatController

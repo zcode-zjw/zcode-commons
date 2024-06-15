@@ -1,0 +1,8 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zcode.zjw.web.encrypt.interception.DecryptInterceptor,\
+  com.zcode.zjw.web.encrypt.common.EncryptKeyLoader,\
+  com.zcode.zjw.web.encrypt.controller.EncryptController,\
+  com.zcode.zjw.web.encrypt.strategy.impl.EncryptAlgorithmStrategyRsa,\
+  com.zcode.zjw.web.encrypt.strategy.impl.EncryptAlgorithmStrategyDes,\
+  com.zcode.zjw.web.encrypt.strategy.impl.EncryptAlgorithmStrategyAes,\
+  com.zcode.zjw.web.encrypt.filter.ReqParamDecryptFilter

@@ -1,0 +1,3 @@
+mybatis-plus:
+  mapper-locations: classpath*:com/zcode/zjw/log/user/mapper/**/*.xml
+  type-aliases-package: com.zcode.zjw.log.user.entity

@@ -1,0 +1,32 @@
+CREATE TABLE `t_permission`
+(
+    `id`          bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+    `method`      varchar(255)        NOT NULL,
+    `name`      varchar(255)        NOT NULL,
+    `module`      text        NOT NULL,
+    `create_time` datetime   DEFAULT CURRENT_TIMESTAMP,
+    `update_time` datetime   DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `deleted`     tinyint(1) DEFAULT '0',
+    `property1`    varchar(255),
+    `property2`    varchar(255),
+    `property3`    varchar(255),
+    `property4`    varchar(255),
+    `property5`    varchar(255),
+    `property6`    varchar(255),
+    `property7`    varchar(255),
+    `property8`    varchar(255),
+    `property9`    varchar(255),
+    `property10`   varchar(255),
+    `property11`   varchar(255),
+    `property12`   varchar(255),
+    `property13`   varchar(255),
+    `property14`   varchar(255),
+    `property15`   varchar(255),
+    `property16`   varchar(255),
+    `property17`   varchar(255),
+    `property18`   varchar(255),
+    `property19`   varchar(255),
+    `property20`   varchar(255),
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4;

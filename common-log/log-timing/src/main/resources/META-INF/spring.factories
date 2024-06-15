@@ -1,0 +1,6 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zcode.zjw.log.timing.config.TimeLogAsyncConfig,\
+  com.zcode.zjw.log.timing.config.TimeLogWebsocketProperties,\
+  com.zcode.zjw.log.timing.config.TimingLogWebSocketConfig,\
+  com.zcode.zjw.log.timing.core.AsyncWebsocketService,\
+  com.zcode.zjw.log.timing.api.TimingLogWebsocketApi

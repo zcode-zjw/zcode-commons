@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zcode.zjw.common.middleware.email.util.SpringUtils,\
+  com.zcode.zjw.common.middleware.email.controller.SendMailController,\
+  com.zcode.zjw.common.middleware.email.service.impl.MailServiceImpl

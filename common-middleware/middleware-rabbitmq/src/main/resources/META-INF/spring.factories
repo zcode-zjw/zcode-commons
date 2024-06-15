@@ -1,0 +1,6 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zcode.zjw.middleware.manager.impl.PipelineQueueManager,\
+  com.zcode.zjw.middleware.config.QueueRepositoryContainerConfig,\
+  com.zcode.zjw.middleware.repository.impl.PipelineQueueRepositoryKeeper,\
+  com.zcode.zjw.middleware.factory.leader.impl.PipelineQueueFactoryDispatcher,\
+  com.zcode.zjw.middleware.utils.SpringContextUtils

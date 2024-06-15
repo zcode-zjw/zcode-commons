@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zcode.zjw.minio.config.MinioConfiguration,\
+  com.zcode.zjw.minio.core.MinioComp

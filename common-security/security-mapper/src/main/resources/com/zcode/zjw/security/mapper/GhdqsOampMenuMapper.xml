@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcode.zjw.security.mapper.GhdqsOampMenuMapper">
+	<!-- GhdqsOampMenu的resultMap,column是给数据库列起的别名,它对应property类的属性 -->
+	<resultMap id="result_GhdqsOampMenu_Map" type="com.zcode.zjw.security.entity.GhdqsOampMenu">
+		<id column="ID" property="id" />
+		<result column="MENU_NAME" property="menuName" />
+		<result column="PATH" property="path" />
+		<result column="COMPONENT" property="component" />
+		<result column="VISIBLE" property="visible" />
+		<result column="STATUS" property="status" />
+		<result column="PERMS" property="perms" />
+		<result column="ICON" property="icon" />
+		<result column="CREATE_BY" property="createBy" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="UPDATE_BY" property="updateBy" />
+		<result column="UPDATE_TIME" property="updateTime" />
+		<result column="DEL_FLAG" property="delFlag" />
+		<result column="REMARK" property="remark" />
+	</resultMap>
+
+	<!-- assist是查询辅助工具类, ${req.require}表示列名,#{req.value}表示值它是防SQL注入的 -->
+	<sql id="assist">
+		<where>
+			<foreach collection="require" item="req" separator=" ">
+				${req.require}
+				<if test="req.value != null">
+					#{req.value}
+				</if>
+				<if test="req.values != null">
+					<foreach collection="req.values" item="value" separator=",">
+						#{value}
+					</foreach>
+				</if>
+				<if test="req.customRequire !=null">
+					<foreach collection="req.customRequire" item="cr" separator=" ">
+						${cr.require}
+						<if test="cr.value != null">
+							#{cr.value}
+						</if>
+						<if test="cr.values != null">
+							<foreach collection="cr.values" item="value"
+								separator=",">
+								#{value}
+							</foreach>
+						</if>
+						<if test="cr.suffix != null"> ${cr.suffix}</if>
+					</foreach>
+				</if>
+				<if test="req.suffix != null"> ${req.suffix}</if>
+			</foreach>
+		</where>
+	</sql>
+
+	<!-- updateAssist用于更新数据查询辅助工具类,作用assist与一致 -->
+	<sql id="updateAssist">
+		<where>
+			<foreach collection="assist.require" item="req" separator=" ">
+				${req.require}
+				<if test="req.value != null">
+					#{req.value}
+				</if>
+				<if test="req.values != null">
+					<foreach collection="req.values" item="value" separator=",">
+						#{value}
+					</foreach>
+				</if>
+				<if test="req.customRequire !=null">
+					<foreach collection="req.customRequire" item="cr" separator=" ">
+						${cr.require}
+						<if test="cr.value != null">
+							#{cr.value}
+						</if>
+						<if test="cr.values != null">
+							<foreach collection="cr.values" item="value"
+								separator=",">
+								#{value}
+							</foreach>
+						</if>
+						<if test="cr.suffix != null"> ${cr.suffix}</if>
+					</foreach>
+				</if>
+				<if test="req.suffix != null"> ${req.suffix}</if>
+			</foreach>
+		</where>
+	</sql>
+
+	<!-- 数据库中表名为:GHDQS_OAMP_MENU的列名 -->
+	<sql id="GHDQS_OAMP_MENU_Column">
+		ID,MENU_NAME,PATH,COMPONENT,VISIBLE,STATUS,PERMS,ICON,CREATE_BY,CREATE_TIME,UPDATE_BY,UPDATE_TIME,DEL_FLAG,REMARK
+	</sql>
+
+	<!--获得类名为:GhdqsOampMenu对应的数据库表的数据总行数 -->
+	<select id="getGhdqsOampMenuRowCount" parameterType="com.zcode.zjw.common.utils.db.Assist" resultType="java.lang.Long">
+		select count(*) from GHDQS_OAMP_MENU
+		<if test="require!=null">
+			<include refid="assist" />
+		</if>
+	</select>
+	
+	<!-- 获得类名为:GhdqsOampMenu对应数据库中表的数据集合 -->
+	<select id="selectGhdqsOampMenu" parameterType="com.zcode.zjw.common.utils.db.Assist" resultMap="result_GhdqsOampMenu_Map">
+	  select * from
+      (
+        select  rownum as page,result.* from
+        (
+          select  <if test="distinct !=null">${distinct}</if>
+            <choose>
+    	        <when test="resultColumn!=null">${resultColumn}</when>
+    	        <otherwise><include refid="GHDQS_OAMP_MENU_Column" /></otherwise>
+            </choose>
+              from GHDQS_OAMP_MENU 
+                <if test="require!=null"><include refid="assist" /></if>
+                <if test="order !=null">${order}</if>
+            ) result 
+            <if test="rowSize!=null">where rownum &lt;= <if test="startRow!=null">#{startRow}+</if>#{rowSize}</if>
+        )
+        <if test="startRow!=null">where page &gt; #{startRow} </if>
+	</select>
+	<!-- 通过GhdqsOampMenu的id获得对应数据库中表的数据对象 -->
+	<select id="selectGhdqsOampMenuById" parameterType="Integer" resultMap="result_GhdqsOampMenu_Map">
+		select
+		<include refid="GHDQS_OAMP_MENU_Column" />
+		from GHDQS_OAMP_MENU
+		where ID = #{id}
+	</select>
+	
+	<!-- 获得一个GhdqsOampMenu对象,以参数GhdqsOampMenu对象中不为空的属性作为条件进行查询 -->
+	<select id="selectGhdqsOampMenuObjSingle" parameterType="com.zcode.zjw.security.entity.GhdqsOampMenu" resultMap="result_GhdqsOampMenu_Map">
+		select
+		<include refid="GHDQS_OAMP_MENU_Column" />
+		from GHDQS_OAMP_MENU
+		<where>
+		<if test="menuName != null"> and MENU_NAME = #{menuName}</if>
+		<if test="path != null"> and PATH = #{path}</if>
+		<if test="component != null"> and COMPONENT = #{component}</if>
+		<if test="visible != null"> and VISIBLE = #{visible}</if>
+		<if test="status != null"> and STATUS = #{status}</if>
+		<if test="perms != null"> and PERMS = #{perms}</if>
+		<if test="icon != null"> and ICON = #{icon}</if>
+		<if test="createBy != null"> and CREATE_BY = #{createBy}</if>
+		<if test="createTime != null"> and CREATE_TIME = #{createTime}</if>
+		<if test="updateBy != null"> and UPDATE_BY = #{updateBy}</if>
+		<if test="updateTime != null"> and UPDATE_TIME = #{updateTime}</if>
+		<if test="delFlag != null"> and DEL_FLAG = #{delFlag}</if>
+		<if test="remark != null"> and REMARK = #{remark}</if>
+		<if test="id != null"> and ID = #{id} </if>
+		and rownum = 1
+		</where>
+	</select>
+	
+	<!-- 获得GhdqsOampMenu对象,以参数GhdqsOampMenu对象中不为空的属性作为条件进行查询 -->
+	<select id="selectGhdqsOampMenuByObj" parameterType="com.zcode.zjw.security.entity.GhdqsOampMenu" resultMap="result_GhdqsOampMenu_Map">
+		select
+		<include refid="GHDQS_OAMP_MENU_Column" />
+		from GHDQS_OAMP_MENU
+		<where>
+		<if test="menuName != null"> and MENU_NAME = #{menuName}</if>
+		<if test="path != null"> and PATH = #{path}</if>
+		<if test="component != null"> and COMPONENT = #{component}</if>
+		<if test="visible != null"> and VISIBLE = #{visible}</if>
+		<if test="status != null"> and STATUS = #{status}</if>
+		<if test="perms != null"> and PERMS = #{perms}</if>
+		<if test="icon != null"> and ICON = #{icon}</if>
+		<if test="createBy != null"> and CREATE_BY = #{createBy}</if>
+		<if test="createTime != null"> and CREATE_TIME = #{createTime}</if>
+		<if test="updateBy != null"> and UPDATE_BY = #{updateBy}</if>
+		<if test="updateTime != null"> and UPDATE_TIME = #{updateTime}</if>
+		<if test="delFlag != null"> and DEL_FLAG = #{delFlag}</if>
+		<if test="remark != null"> and REMARK = #{remark}</if>
+		<if test="id != null"> and ID = #{id} </if>
+		</where>
+	</select>
+
+	<select id="selectPermsByUserId" resultType="java.lang.String">
+	    SELECT
+            DISTINCT m.perms
+        FROM
+            GHDQS_OAMP_USER_ROLE ur
+            LEFT JOIN GHDQS_OAMP_ROLE r ON ur.role_id = r.id
+            LEFT JOIN GHDQS_OAMP_ROLE_MENU rm ON ur.role_id = rm.role_id
+            LEFT JOIN GHDQS_OAMP_MENU m ON m.id = rm.menu_id
+        WHERE
+            user_id = #{userid}
+            AND r.status = 0
+            AND m.status = 0
+    </select>
+
+	<!-- 将GhdqsOampMenu插入到对应数据库的表中,包括属性值为null的数据 -->
+	<insert id="insertGhdqsOampMenu" parameterType="com.zcode.zjw.security.entity.GhdqsOampMenu">
+		insert into 
+		GHDQS_OAMP_MENU (ID,MENU_NAME,PATH,COMPONENT,VISIBLE,STATUS,PERMS,ICON,CREATE_BY,CREATE_TIME,UPDATE_BY,UPDATE_TIME,DEL_FLAG,REMARK) 
+		values(#{id},#{menuName},#{path},#{component},#{visible},#{status},#{perms},#{icon},#{createBy},#{createTime},#{updateBy},#{updateTime},#{delFlag},#{remark})
+	</insert>
+
+	<!-- 将GhdqsOampMenu中属性值不为null的数据,插入到对应数据库的表中 -->
+	<insert id="insertNotNullGhdqsOampMenu" parameterType="com.zcode.zjw.security.entity.GhdqsOampMenu">
+		insert into GHDQS_OAMP_MENU
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">ID,</if>
+			<if test="menuName != null">MENU_NAME,</if>
+			<if test="path != null">PATH,</if>
+			<if test="component != null">COMPONENT,</if>
+			<if test="visible != null">VISIBLE,</if>
+			<if test="status != null">STATUS,</if>
+			<if test="perms != null">PERMS,</if>
+			<if test="icon != null">ICON,</if>
+			<if test="createBy != null">CREATE_BY,</if>
+			<if test="createTime != null">CREATE_TIME,</if>
+			<if test="updateBy != null">UPDATE_BY,</if>
+			<if test="updateTime != null">UPDATE_TIME,</if>
+			<if test="delFlag != null">DEL_FLAG,</if>
+			<if test="remark != null">REMARK,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="menuName != null">#{menuName},</if>
+			<if test="path != null">#{path},</if>
+			<if test="component != null">#{component},</if>
+			<if test="visible != null">#{visible},</if>
+			<if test="status != null">#{status},</if>
+			<if test="perms != null">#{perms},</if>
+			<if test="icon != null">#{icon},</if>
+			<if test="createBy != null">#{createBy},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="updateBy != null">#{updateBy},</if>
+			<if test="updateTime != null">#{updateTime},</if>
+			<if test="delFlag != null">#{delFlag},</if>
+			<if test="remark != null">#{remark},</if>
+		</trim>
+	</insert>
+
+	<!-- 将GhdqsOampMenu批量插入到对应数据库的表中 -->
+	<insert id="insertGhdqsOampMenuByBatch" parameterType="ArrayList">
+		insert into GHDQS_OAMP_MENU(ID,MENU_NAME,PATH,COMPONENT,VISIBLE,STATUS,PERMS,ICON,CREATE_BY,CREATE_TIME,UPDATE_BY,UPDATE_TIME,DEL_FLAG,REMARK) values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.id},#{item.menuName},#{item.path},#{item.component},#{item.visible},#{item.status},#{item.perms},#{item.icon},#{item.createBy},#{item.createTime},#{item.updateBy},#{item.updateTime},#{item.delFlag},#{item.remark})
+		</foreach>
+	</insert>
+	
+	<!-- 通过GhdqsOampMenu的id将数据库表中对应的数据删除 -->
+	<delete id="deleteGhdqsOampMenuById" parameterType="Integer">
+		delete from GHDQS_OAMP_MENU
+		where  ID  =  #{id}
+	</delete>
+
+	<!-- 通过辅助工具Assist中的条件将GhdqsOampMenu对应的数据库表的数据删除 -->
+	<delete id="deleteGhdqsOampMenuByAssist" parameterType="com.zcode.zjw.common.utils.db.Assist">
+		delete from GHDQS_OAMP_MENU
+		<if test="require!=null">
+			<include refid="assist" />
+		</if>
+	</delete>
+	
+	<!-- 通过GhdqsOampMenu的id将GhdqsOampMenu的数据更新到数据库中对应的表,包括值null的数据 -->
+	<update id="updateGhdqsOampMenuById" parameterType="com.zcode.zjw.security.entity.GhdqsOampMenu">
+		update GHDQS_OAMP_MENU set
+		<set>
+			MENU_NAME = #{menuName} , 
+			PATH = #{path} , 
+			COMPONENT = #{component} , 
+			VISIBLE = #{visible} , 
+			STATUS = #{status} , 
+			PERMS = #{perms} , 
+			ICON = #{icon} , 
+			CREATE_BY = #{createBy} , 
+			CREATE_TIME = #{createTime} , 
+			UPDATE_BY = #{updateBy} , 
+			UPDATE_TIME = #{updateTime} , 
+			DEL_FLAG = #{delFlag} , 
+			REMARK = #{remark} , 
+		</set>
+		where ID = #{id}
+	</update>
+	
+	<!-- 通过GhdqsOampMenu的id将GhdqsOampMenu中属性值不为null的数据更新到数据库对应的表中 -->
+	<update id="updateNotNullGhdqsOampMenuById" parameterType="com.zcode.zjw.security.entity.GhdqsOampMenu">
+		update GHDQS_OAMP_MENU
+		<set>
+					<if test="menuName != null">MENU_NAME = #{menuName},</if>
+					<if test="path != null">PATH = #{path},</if>
+					<if test="component != null">COMPONENT = #{component},</if>
+					<if test="visible != null">VISIBLE = #{visible},</if>
+					<if test="status != null">STATUS = #{status},</if>
+					<if test="perms != null">PERMS = #{perms},</if>
+					<if test="icon != null">ICON = #{icon},</if>
+					<if test="createBy != null">CREATE_BY = #{createBy},</if>
+					<if test="createTime != null">CREATE_TIME = #{createTime},</if>
+					<if test="updateBy != null">UPDATE_BY = #{updateBy},</if>
+					<if test="updateTime != null">UPDATE_TIME = #{updateTime},</if>
+					<if test="delFlag != null">DEL_FLAG = #{delFlag},</if>
+					<if test="remark != null">REMARK = #{remark},</if>
+		</set>
+		where ID = #{id}
+	</update>
+	
+	<!-- 通过辅助工具Assist中的条件将GhdqsOampMenu中的数据更新到数据库对应的表中,包括值为null的数据 -->
+	<update id="updateGhdqsOampMenu" parameterType="map">
+		update GHDQS_OAMP_MENU
+		<set>
+			ID = #{enti.id},
+			MENU_NAME = #{enti.menuName},
+			PATH = #{enti.path},
+			COMPONENT = #{enti.component},
+			VISIBLE = #{enti.visible},
+			STATUS = #{enti.status},
+			PERMS = #{enti.perms},
+			ICON = #{enti.icon},
+			CREATE_BY = #{enti.createBy},
+			CREATE_TIME = #{enti.createTime},
+			UPDATE_BY = #{enti.updateBy},
+			UPDATE_TIME = #{enti.updateTime},
+			DEL_FLAG = #{enti.delFlag},
+			REMARK = #{enti.remark},
+		</set>
+		<if test="assist.require!=null">
+			<include refid="updateAssist" />
+		</if>
+	</update>
+
+	<!-- 通过辅助工具Assist中的条件将GhdqsOampMenu中属性值不为null的数据更新到数据库对应的表中 -->
+	<update id="updateNotNullGhdqsOampMenu" parameterType="map">
+		update GHDQS_OAMP_MENU
+		<set>
+			<if test="enti.id != null">ID = #{enti.id},</if>
+			<if test="enti.menuName != null">MENU_NAME = #{enti.menuName},</if>
+			<if test="enti.path != null">PATH = #{enti.path},</if>
+			<if test="enti.component != null">COMPONENT = #{enti.component},</if>
+			<if test="enti.visible != null">VISIBLE = #{enti.visible},</if>
+			<if test="enti.status != null">STATUS = #{enti.status},</if>
+			<if test="enti.perms != null">PERMS = #{enti.perms},</if>
+			<if test="enti.icon != null">ICON = #{enti.icon},</if>
+			<if test="enti.createBy != null">CREATE_BY = #{enti.createBy},</if>
+			<if test="enti.createTime != null">CREATE_TIME = #{enti.createTime},</if>
+			<if test="enti.updateBy != null">UPDATE_BY = #{enti.updateBy},</if>
+			<if test="enti.updateTime != null">UPDATE_TIME = #{enti.updateTime},</if>
+			<if test="enti.delFlag != null">DEL_FLAG = #{enti.delFlag},</if>
+			<if test="enti.remark != null">REMARK = #{enti.remark},</if>
+		</set>
+		<if test="assist.require!=null">
+			<include refid="updateAssist" />
+		</if>
+	</update>
+</mapper>

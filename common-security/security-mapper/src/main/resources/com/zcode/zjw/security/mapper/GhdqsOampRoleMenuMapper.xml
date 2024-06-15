@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcode.zjw.security.mapper.GhdqsOampRoleMenuMapper">
+	<!-- GhdqsOampRoleMenu的resultMap,column是给数据库列起的别名,它对应property类的属性 -->
+	<resultMap id="result_GhdqsOampRoleMenu_Map" type="com.zcode.zjw.security.entity.GhdqsOampRoleMenu">
+		<id column="MENU_ID" property="menuId" />
+		<result column="ROLE_ID" property="roleId" />
+	</resultMap>
+
+	<!-- assist是查询辅助工具类, ${req.require}表示列名,#{req.value}表示值它是防SQL注入的 -->
+	<sql id="assist">
+		<where>
+			<foreach collection="require" item="req" separator=" ">
+				${req.require}
+				<if test="req.value != null">
+					#{req.value}
+				</if>
+				<if test="req.values != null">
+					<foreach collection="req.values" item="value" separator=",">
+						#{value}
+					</foreach>
+				</if>
+				<if test="req.customRequire !=null">
+					<foreach collection="req.customRequire" item="cr" separator=" ">
+						${cr.require}
+						<if test="cr.value != null">
+							#{cr.value}
+						</if>
+						<if test="cr.values != null">
+							<foreach collection="cr.values" item="value"
+								separator=",">
+								#{value}
+							</foreach>
+						</if>
+						<if test="cr.suffix != null"> ${cr.suffix}</if>
+					</foreach>
+				</if>
+				<if test="req.suffix != null"> ${req.suffix}</if>
+			</foreach>
+		</where>
+	</sql>
+
+	<!-- updateAssist用于更新数据查询辅助工具类,作用assist与一致 -->
+	<sql id="updateAssist">
+		<where>
+			<foreach collection="assist.require" item="req" separator=" ">
+				${req.require}
+				<if test="req.value != null">
+					#{req.value}
+				</if>
+				<if test="req.values != null">
+					<foreach collection="req.values" item="value" separator=",">
+						#{value}
+					</foreach>
+				</if>
+				<if test="req.customRequire !=null">
+					<foreach collection="req.customRequire" item="cr" separator=" ">
+						${cr.require}
+						<if test="cr.value != null">
+							#{cr.value}
+						</if>
+						<if test="cr.values != null">
+							<foreach collection="cr.values" item="value"
+								separator=",">
+								#{value}
+							</foreach>
+						</if>
+						<if test="cr.suffix != null"> ${cr.suffix}</if>
+					</foreach>
+				</if>
+				<if test="req.suffix != null"> ${req.suffix}</if>
+			</foreach>
+		</where>
+	</sql>
+
+	<!-- 数据库中表名为:GHDQS_OAMP_ROLE_MENU的列名 -->
+	<sql id="GHDQS_OAMP_ROLE_MENU_Column">
+		ROLE_ID,MENU_ID
+	</sql>
+
+	<!--获得类名为:GhdqsOampRoleMenu对应的数据库表的数据总行数 -->
+	<select id="getGhdqsOampRoleMenuRowCount" parameterType="com.zcode.zjw.common.utils.db.Assist" resultType="java.lang.Long">
+		select count(*) from GHDQS_OAMP_ROLE_MENU
+		<if test="require!=null">
+			<include refid="assist" />
+		</if>
+	</select>
+	
+	<!-- 获得类名为:GhdqsOampRoleMenu对应数据库中表的数据集合 -->
+	<select id="selectGhdqsOampRoleMenu" parameterType="com.zcode.zjw.common.utils.db.Assist" resultMap="result_GhdqsOampRoleMenu_Map">
+	  select * from
+      (
+        select  rownum as page,result.* from
+        (
+          select  <if test="distinct !=null">${distinct}</if>
+            <choose>
+    	        <when test="resultColumn!=null">${resultColumn}</when>
+    	        <otherwise><include refid="GHDQS_OAMP_ROLE_MENU_Column" /></otherwise>
+            </choose>
+              from GHDQS_OAMP_ROLE_MENU 
+                <if test="require!=null"><include refid="assist" /></if>
+                <if test="order !=null">${order}</if>
+            ) result 
+            <if test="rowSize!=null">where rownum &lt;= <if test="startRow!=null">#{startRow}+</if>#{rowSize}</if>
+        )
+        <if test="startRow!=null">where page &gt; #{startRow} </if>
+	</select>
+	<!-- 通过GhdqsOampRoleMenu的id获得对应数据库中表的数据对象 -->
+	<select id="selectGhdqsOampRoleMenuById" parameterType="Integer" resultMap="result_GhdqsOampRoleMenu_Map">
+		select
+		<include refid="GHDQS_OAMP_ROLE_MENU_Column" />
+		from GHDQS_OAMP_ROLE_MENU
+		where MENU_ID = #{id}
+	</select>
+	
+	<!-- 获得一个GhdqsOampRoleMenu对象,以参数GhdqsOampRoleMenu对象中不为空的属性作为条件进行查询 -->
+	<select id="selectGhdqsOampRoleMenuObjSingle" parameterType="com.zcode.zjw.security.entity.GhdqsOampRoleMenu" resultMap="result_GhdqsOampRoleMenu_Map">
+		select
+		<include refid="GHDQS_OAMP_ROLE_MENU_Column" />
+		from GHDQS_OAMP_ROLE_MENU
+		<where>
+		<if test="roleId != null"> and ROLE_ID = #{roleId}</if>
+		<if test="menuId != null"> and MENU_ID = #{menuId} </if>
+		and rownum = 1
+		</where>
+	</select>
+	
+	<!-- 获得GhdqsOampRoleMenu对象,以参数GhdqsOampRoleMenu对象中不为空的属性作为条件进行查询 -->
+	<select id="selectGhdqsOampRoleMenuByObj" parameterType="com.zcode.zjw.security.entity.GhdqsOampRoleMenu" resultMap="result_GhdqsOampRoleMenu_Map">
+		select
+		<include refid="GHDQS_OAMP_ROLE_MENU_Column" />
+		from GHDQS_OAMP_ROLE_MENU
+		<where>
+		<if test="roleId != null"> and ROLE_ID = #{roleId}</if>
+		<if test="menuId != null"> and MENU_ID = #{menuId} </if>
+		</where>
+	</select>
+
+	<!-- 将GhdqsOampRoleMenu插入到对应数据库的表中,包括属性值为null的数据 -->
+	<insert id="insertGhdqsOampRoleMenu" parameterType="com.zcode.zjw.security.entity.GhdqsOampRoleMenu">
+		insert into 
+		GHDQS_OAMP_ROLE_MENU (ROLE_ID,MENU_ID) 
+		values(#{roleId},#{menuId})
+	</insert>
+
+	<!-- 将GhdqsOampRoleMenu中属性值不为null的数据,插入到对应数据库的表中 -->
+	<insert id="insertNotNullGhdqsOampRoleMenu" parameterType="com.zcode.zjw.security.entity.GhdqsOampRoleMenu">
+		insert into GHDQS_OAMP_ROLE_MENU
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="roleId != null">ROLE_ID,</if>
+			<if test="menuId != null">MENU_ID,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="roleId != null">#{roleId},</if>
+			<if test="menuId != null">#{menuId},</if>
+		</trim>
+	</insert>
+
+	<!-- 将GhdqsOampRoleMenu批量插入到对应数据库的表中 -->
+	<insert id="insertGhdqsOampRoleMenuByBatch" parameterType="ArrayList">
+		insert into GHDQS_OAMP_ROLE_MENU(ROLE_ID,MENU_ID) values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.roleId},#{item.menuId})
+		</foreach>
+	</insert>
+	
+	<!-- 通过GhdqsOampRoleMenu的id将数据库表中对应的数据删除 -->
+	<delete id="deleteGhdqsOampRoleMenuById" parameterType="Integer">
+		delete from GHDQS_OAMP_ROLE_MENU
+		where  MENU_ID  =  #{id}
+	</delete>
+
+	<!-- 通过辅助工具Assist中的条件将GhdqsOampRoleMenu对应的数据库表的数据删除 -->
+	<delete id="deleteGhdqsOampRoleMenuByAssist" parameterType="com.zcode.zjw.common.utils.db.Assist">
+		delete from GHDQS_OAMP_ROLE_MENU
+		<if test="require!=null">
+			<include refid="assist" />
+		</if>
+	</delete>
+	
+	<!-- 通过GhdqsOampRoleMenu的id将GhdqsOampRoleMenu的数据更新到数据库中对应的表,包括值null的数据 -->
+	<update id="updateGhdqsOampRoleMenuById" parameterType="com.zcode.zjw.security.entity.GhdqsOampRoleMenu">
+		update GHDQS_OAMP_ROLE_MENU set
+		<set>
+			ROLE_ID = #{roleId} , 
+		</set>
+		where MENU_ID = #{menuId}
+	</update>
+	
+	<!-- 通过GhdqsOampRoleMenu的id将GhdqsOampRoleMenu中属性值不为null的数据更新到数据库对应的表中 -->
+	<update id="updateNotNullGhdqsOampRoleMenuById" parameterType="com.zcode.zjw.security.entity.GhdqsOampRoleMenu">
+		update GHDQS_OAMP_ROLE_MENU
+		<set>
+					<if test="roleId != null">ROLE_ID = #{roleId},</if>
+		</set>
+		where MENU_ID = #{menuId}
+	</update>
+	
+	<!-- 通过辅助工具Assist中的条件将GhdqsOampRoleMenu中的数据更新到数据库对应的表中,包括值为null的数据 -->
+	<update id="updateGhdqsOampRoleMenu" parameterType="map">
+		update GHDQS_OAMP_ROLE_MENU
+		<set>
+			ROLE_ID = #{enti.roleId},
+			MENU_ID = #{enti.menuId},
+		</set>
+		<if test="assist.require!=null">
+			<include refid="updateAssist" />
+		</if>
+	</update>
+
+	<!-- 通过辅助工具Assist中的条件将GhdqsOampRoleMenu中属性值不为null的数据更新到数据库对应的表中 -->
+	<update id="updateNotNullGhdqsOampRoleMenu" parameterType="map">
+		update GHDQS_OAMP_ROLE_MENU
+		<set>
+			<if test="enti.roleId != null">ROLE_ID = #{enti.roleId},</if>
+			<if test="enti.menuId != null">MENU_ID = #{enti.menuId},</if>
+		</set>
+		<if test="assist.require!=null">
+			<include refid="updateAssist" />
+		</if>
+	</update>
+</mapper>

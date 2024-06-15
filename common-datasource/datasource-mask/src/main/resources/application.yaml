@@ -1,0 +1,5 @@
+mybatis:
+  configuration:
+    interceptors:
+      - com.zcode.zjw.datasource.interception.ResultSetInterceptor
+      - com.zcode.zjw.datasource.interception.ParameterInterceptor

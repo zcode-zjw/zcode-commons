@@ -1,0 +1,7 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zcode.zjw.auth.interception.LoginInterceptor,\
+  com.zcode.zjw.auth.interception.PermissionMethodCollectionListener,\
+  com.zcode.zjw.auth.interception.SecurityInterceptor,\
+  com.zcode.zjw.auth.config.MvcConfig,\
+  com.zcode.zjw.auth.exception.ExpiredJwtExceptionHandler,\
+  com.zcode.zjw.auth.controller.UserController
